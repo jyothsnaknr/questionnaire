@@ -1,0 +1,70 @@
+label.radio, label.checkbox {
+    cursor: pointer
+}
+
+label.radio input, label.checkbox input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+}
+
+label.radio span, label.checkbox span {
+    text-transform: uppercase;
+    text-align: center;
+    padding: 8px;
+    border: 1px solid rgb(0, 174, 255);
+    display: inline-block;
+    color: rgb(0, 121, 177);
+    margin-top: 10px;
+    border-radius: 8px;
+    width: 20em;
+}
+@media only screen and (max-width: 768px) {
+    label.radio span, label.checkbox span {
+        width: 100%;
+        width: 15em;
+    }
+    [class*="col-"] {
+        width: 100%;
+    }
+    .ok-btn {
+        margin-left: 1em !important;
+    }
+}
+
+label.radio input:checked+span, label.radio span:hover, label.radio span.active {
+    background-color: rgb(0, 174, 255);
+    color: #fff
+}
+
+label.checkbox input:checked+span, label.checkbox span:hover, label.checkbox span.active {
+    background-color: rgb(0, 174, 255);
+    color: #fff
+}
+
+.choices {
+    margin-left: 1em !important
+}
+
+.btn:focus {
+    outline: 0 !important;
+    box-shadow: none !important
+}
+
+.btn:active {
+    outline: 0 !important;
+    box-shadow: none !important
+}
+
+.btn:hover {
+    color: rgb(66, 179, 255)
+}
+
+.ok-btn {
+    margin-top: 20px;
+}
+
+.final-msg {
+    height: 120px;
+}

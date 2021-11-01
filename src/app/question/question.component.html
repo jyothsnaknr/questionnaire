@@ -1,0 +1,84 @@
+
+<div #questionDiv class="question p-3 col-md-12">
+    <div *ngIf="currentQuestion < questionData.length" [@valueUpdated]="currentQuestion">
+        <div class="align-items-center question-headline mb-2">
+            <h4 class="mt-1 ml-2">
+                {{currentQuestion+1}}. {{question.headline}}
+            </h4>
+        </div>
+
+        <ng-container *ngIf="question.question_type === 'multiple-choice' && !question.multiple">
+            <div *ngFor="let choice of question.choices" class="choices ml-2 col-md-3">
+                <label class="radio"> 
+                    <input 
+                        #currentAnswer
+                        type="radio" 
+                        name="choice_radio"
+                        [value]="choice.value"
+                        [checked]="choice.value === answers[currentQuestion]"
+                        (change)="onAnswer()"
+                        [(ngModel)]="answers[currentQuestion]"
+                    > 
+                    <span [ngClass]="{'active': answers[currentQuestion] === choice.value}">{{choice.label}}</span>
+                </label>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="question.question_type === 'multiple-choice' && question.multiple">
+            <div *ngFor="let choice of question.choices" class="choices ml-2 col-md-3">
+                <label class="checkbox"> 
+                    <input 
+                        type="checkbox" 
+                        name="choice_check"
+                        [value]="choice.value"
+                        [checked]="answers[currentQuestion] ? answers[currentQuestion].split(',').includes(choice.value) : choice.value === answers[currentQuestion]"
+                        (change)="onMultiAnswer(choice.value)"
+                    > 
+                    <input #currentAnswer type="hidden" value="multiAnswer.join(',')">
+                    <span [ngClass]="{'active': multiAnswer.includes(choice.value)}">{{choice.label}}</span>
+                </label>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="question.question_type === 'text'">
+            <label class="text col-md-10"> 
+                <input [@valueUpdated]="answers[currentQuestion]"
+                    #currentAnswer
+                    type="text" 
+                    name="choice_text"
+                    class="form-control ml-2"
+                    [value]="answers[currentQuestion] ? answers[currentQuestion] : ''"
+                    [(ngModel)]="answers[currentQuestion]"
+                >
+            </label>
+        </ng-container>
+
+        <div class="col-md-10" *ngIf="question.question_type === 'text' || question.multiple">
+            <label class="btn btn-primary ok-btn ml-2" (click)="onAnswer()">OK</label>
+        </div>
+    </div>
+    
+    <div *ngIf="currentQuestion === questionData.length" class="text-center col-md-12">
+        <svg width="200" height="100">
+            <rect x="0" y="0" width="200" height="100" stroke="blue" stroke-width="3px" fill="white"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="2em">Thank you !</text>    
+        </svg>
+        <!-- <h3><label class="text-primary mt-5 final-msg text-center col-md-12">Thank You!!</label></h3> -->
+    </div>
+</div>
+
+<div class="d-flex w-100 border-top p-3 col-md-12">
+    <div class="col-md-10">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-info" [ngClass]="{'disabled' : currentQuestion === 0 }" (click)="prev()" title="Previous">
+                <i class="fa fa-chevron-left"></i>
+            </label>
+            <label class="btn btn-info" [ngClass]="{'disabled' : questionData.length === currentQuestion}" (click)="next()" title="next">
+                <i class="fa fa-chevron-right"></i>
+            </label>
+        </div>
+    </div>
+    <div *ngIf="currentQuestion < questionData.length" class="col-md-2">
+        {{currentQuestion+1}} of {{questionData.length}}
+    </div>
+</div>
